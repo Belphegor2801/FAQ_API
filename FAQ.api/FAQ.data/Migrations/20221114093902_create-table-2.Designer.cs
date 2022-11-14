@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FAQ.data.Migrations
 {
     [DbContext(typeof(FaqDBContext))]
-    [Migration("20221114083702_create-table")]
-    partial class createtable
+    [Migration("20221114093902_create-table-2")]
+    partial class createtable2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
