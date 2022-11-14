@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FAQ.api", "FAQ.api\FAQ.api.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FAQ.data", "FAQ.data\FAQ.data.csproj", "{90FCED7B-6E98-4AD4-8F3C-032E2BEA0725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAQ.common", "FAQ.common\FAQ.common.csproj", "{A4B1F6E0-8EAA-4EC4-B134-C28901E0672F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FAQ.common", "FAQ.common\FAQ.common.csproj", "{A4B1F6E0-8EAA-4EC4-B134-C28901E0672F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAQ.business", "FAQ.business\FAQ.business.csproj", "{DAA4CA82-E932-481F-9A16-D3C5949F2460}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{A4B1F6E0-8EAA-4EC4-B134-C28901E0672F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4B1F6E0-8EAA-4EC4-B134-C28901E0672F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4B1F6E0-8EAA-4EC4-B134-C28901E0672F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAA4CA82-E932-481F-9A16-D3C5949F2460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAA4CA82-E932-481F-9A16-D3C5949F2460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAA4CA82-E932-481F-9A16-D3C5949F2460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAA4CA82-E932-481F-9A16-D3C5949F2460}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

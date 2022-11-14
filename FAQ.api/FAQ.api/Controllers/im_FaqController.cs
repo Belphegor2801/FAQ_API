@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
-using FAQ.Data;
 using FAQ.data.Entity;
+using FAQ.business;
 
 namespace FAQ.api.Controllers
 {
@@ -15,25 +13,18 @@ namespace FAQ.api.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class im_FaqController : ControllerBase
     {
-        private readonly FaqDBContext db;
-
-        public im_FaqController(FaqDBContext dbContext)
+        private readonly FaqManagement _faqManagement;
+        public im_FaqController(FaqManagement faqManagement)
         {
-            db = dbContext;
+            _faqManagement = faqManagement;
         }
 
-        [Route("get")]
+        [Route("api/v1/faqs")]
         [HttpGet]
         public ActionResult GetFaq()
         {
-            IList<im_Faq> im_Faqs = db.im_Faq.ToList<im_Faq>();
-
-            if (im_Faqs.Count == 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(im_Faqs);
+            IList<im_Faq> faqs = _faqManagement.getFaqs();
+            return Ok(faqs);
         }
 
         // GET: api/im_Faq/5
@@ -41,11 +32,8 @@ namespace FAQ.api.Controllers
         [HttpGet]
         public ActionResult Getim_Faq(int id)
         {
-            im_Faq im_Faq = db.im_Faq.Include(f => f.Translations).SingleOrDefault(i => i.Id == id);
-            if (im_Faq == null)
-            {
-                return NotFound();
-            }
+            im_Faq im_Faq = _faqManagement.getFaq(id);
+            if (im_Faq == null) return NotFound();
 
             return Ok(im_Faq);
         }
@@ -55,25 +43,12 @@ namespace FAQ.api.Controllers
         [HttpPut]
         public ActionResult Putim_Faq(int id, im_Faq im_Faq)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (id != im_Faq.Id)
-            {
-                return BadRequest();
-            }
+            if (id != im_Faq.Id) return BadRequest();
 
-            db.Entry(im_Faq).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _faqManagement.putFaq(im_Faq);
 
-            try
-            {
-                db.SaveChangesAsync();
-            }
-            catch
-            {
-            }
             return BadRequest();
         }
 
@@ -81,42 +56,9 @@ namespace FAQ.api.Controllers
         [HttpPost]
         public ActionResult Postim_Faq(im_Faq im_Faq)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Thời gian hiện taij
-            im_Faq.CreatedDate = DateTime.Now;
-            im_Faq.ModifiedDate = DateTime.Now;
-
-            db.im_Faq.Add(im_Faq);
-
-
-            foreach (var item in im_Faq.Translations)
-            {
-                db.im_Faq_Translation.Add(new im_Faq_Translation
-                {
-                    FaqId = im_Faq.Id,
-                    Question = item.Question,
-                    Answer = item.Answer,
-                    Language = item.Language,
-                    CreatedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now
-                });
-            }
-
-            db.im_Faq_Translation.Add(new im_Faq_Translation
-            {
-                FaqId = im_Faq.Id,
-                Question = im_Faq.Question,
-                Answer = im_Faq.Answer,
-                Language = im_Faq.Language,
-                CreatedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now
-            });
-
-            db.SaveChangesAsync();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            
+            _faqManagement.postFaq(im_Faq);
 
             return CreatedAtRoute("DefaultApi", new { id = im_Faq.Id }, im_Faq);
         }
@@ -126,15 +68,8 @@ namespace FAQ.api.Controllers
         [HttpPost]
         public ActionResult Deleteim_Faq(int id)
         {
-            im_Faq im_Faq = db.im_Faq.Find(id);
-            if (im_Faq == null)
-            {
-                return NotFound();
-            }
-
-            db.im_Faq.Remove(im_Faq);
-            db.SaveChangesAsync();
-
+            im_Faq im_Faq = _faqManagement.deleteFaq(id);
+            if (im_Faq == null) return NotFound();
             return Ok(im_Faq);
         }
     }

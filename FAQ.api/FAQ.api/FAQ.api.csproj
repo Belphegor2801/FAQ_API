@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FAQ.business\FAQ.business.csproj" />
     <ProjectReference Include="..\FAQ.data\FAQ.data.csproj" />
   </ItemGroup>
 
